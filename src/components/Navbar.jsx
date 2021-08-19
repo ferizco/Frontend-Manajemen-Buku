@@ -14,6 +14,9 @@ function Navbar() {
                         <li>
                             <Link to="/manajemen-buku" className="nav-link"> Manajemen Buku</Link>
                         </li>
+                        <li>
+                            <Link to="/manajemen-pelanggan" className="nav-link">Manajemen Pelanggan</Link>
+                        </li>
                     </ul>
 
                 </div>

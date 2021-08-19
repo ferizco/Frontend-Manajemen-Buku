@@ -3,14 +3,17 @@ import Navbar from "./components/Navbar";
 import Beranda from "./components/Beranda";
 import ManajemenBuku from "./components/ManajemenBuku";
 import Footer from "./components/Footer";
+import ManajemenPelanggan from "./components/ManajemenPelanggan";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
   const [books, setBooks] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     retrieveData();
+    retrieveData2();
   }, []);
 
   function retrieveData() {
@@ -24,12 +27,35 @@ function App() {
       });
   }
 
+  function retrieveData2() {
+    axios
+      .get("http://localhost:4000/user")
+      .then((response) => {
+        setUsers(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   //function nerima data input dari child
   function storeData(inputBook) {
     axios
       .post("http://localhost:4000/book/add", inputBook)
       .then((res) => {
         setBooks((prevBooks) => [...prevBooks, inputBook]);
+        alert("Data berhasil ditambahkan");
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  }
+
+  function StoreUserData(inputUser) {
+    axios
+      .post("http://localhost:4000/user/add", inputUser)
+      .then((res) => {
+        setUsers((prevUsers) => [...prevUsers, inputUser]);
         alert("Data berhasil ditambahkan");
       })
       .catch((error) => {
@@ -87,7 +113,12 @@ function App() {
               remove={deleteData}
             />
           </Route>
+
+          <Route path="/manajemen-pelanggan">
+            <ManajemenPelanggan userList={users} storeUser={StoreUserData} />
+          </Route>
         </Switch>
+
         <Footer />
       </BrowserRouter>
     </div>
